@@ -11,25 +11,86 @@
 GLFWwindow* window;
 glm::mat4 view;
 
-float oldX, oldY;
+double x, y, z, tempX, tempY;
+double oldXPos, oldYPos;
+glm::quat rotationQuat;
+bool hold;
+float deltaX, deltaY;
 
-
-static void spin(GLFWwindow* window, double xpos, double ypos)
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+    {
+        hold = true;
+        glfwGetCursorPos(window, &oldXPos, &oldYPos);
+    }
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action != GLFW_PRESS)
+    {
+        hold = false;
+        x += deltaX;
+        y += deltaY;
+
+        if (x > 360)
+        {
+            x -= 360;
+        }
+        else if (x < 0)
+        {
+            x += 360;
+        }
+
+        if (y > 360)
+        {
+            y -= 360;
+        }
+        else if (y < 0)
+        {
+            y += 360;
+        }
+    }
+}
+
+void spin(GLFWwindow* window, double xpos, double ypos)
+{
+
     if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
     {
-        view = glm::rotate(view, glm::radians(((float)xpos - oldX) * .1f), glm::vec3(0, 1, 0));
-        view = glm::rotate(view, glm::radians(((float)ypos - oldY) * .1f), glm::vec3(1, 0, 0));
+        deltaX = (xpos - oldXPos) / 9;
+        deltaY = (ypos - oldYPos) / 9;
+
+        tempX = x + deltaX;
+        tempY = y + deltaY;
+
+        if (tempX > 360)
+        {
+            tempX -= 360;
+        }
+        else if (tempX < 0)
+        {
+            tempX += 360;
+        }
+
+        if (tempY > 360)
+        {
+            tempY -= 360;
+        }
+        else if (tempY < 0)
+        {
+            tempY += 360;
+        }
+        std::cout << "cal: " << ((int)tempX % 90) << std::endl;
+        view = glm::rotate(glm::mat4(1.0), glm::radians((float)tempX), glm::vec3(0, 1, 0));
+        //view = glm::rotate(view, glm::radians((float)tempY), glm::vec3(1, 0, 0));
     }
-    oldX = (float)xpos;
-    oldY = (float)ypos;
 }
 
 
 
 int main()
 {
-    oldX, oldY = 0;
+    x, y, z, tempX, tempY = 0;
+    oldXPos, oldYPos = 0;
+    hold = false;
 
     /* Initialize the library */
     if (!glfwInit())
@@ -55,6 +116,7 @@ int main()
         std::cout << "FUCK" << std::endl;
     glEnable(GL_DEPTH_TEST);
     glfwSetCursorPosCallback(window, spin);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
     glDebugMessageCallback([](GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam)
         {
             switch (severity)
