@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29609.76
+VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HaulinCube", "HaulinCube.vcxproj", "{AAAE1D20-6181-4B25-8358-4801227E43CE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VV12", "VV12.vcxproj", "{AAAE1D20-6181-4B25-8358-4801227E43CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C8612D53-9AB9-4F28-941F-3161D673B032}
+		SolutionGuid = {407DBFE7-21B4-4FF7-9CC5-C1ED5BADB020}
 	EndGlobalSection
 EndGlobal
