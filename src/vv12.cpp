@@ -78,9 +78,31 @@ void spin(GLFWwindow* window, double xpos, double ypos)
         {
             tempY += 360;
         }
-        std::cout << "cal: " << ((int)tempX % 90) << std::endl;
+
+        float x = tempX, z = 0;
+        if ((tempX > 0 && tempX < 90)) {
+            x = 90 - (int)tempX % 90;
+            z = (int)tempX % 90;
+        }
+        else if (tempX > 90 && tempX < 180){
+            x = (int)tempX % 90 * -1;
+            z = 90 - (int)tempX % 90;
+        }
+        else if (tempX > 180 && tempX < 270) {
+            x = (90 - (int)tempX % 90) * -1;
+            z = (int)tempX % 90 * -1;
+        }
+        else if (tempX > 270 && tempX < 360) {
+            x = (int)tempX % 90;
+            z = (90 - (int)tempX % 90) * -1;
+        }
+        std::cout << "temp: " << tempX << std::endl;
+        std::cout << "x: " << x << std::endl;
+        std::cout << "z: " << z << std::endl;
+        x = x / 90;
+        z = z / 90;
         view = glm::rotate(glm::mat4(1.0), glm::radians((float)tempX), glm::vec3(0, 1, 0));
-        //view = glm::rotate(view, glm::radians((float)tempY), glm::vec3(1, 0, 0));
+        view = glm::rotate(view, glm::radians((float)tempY), glm::vec3(x, 0, z));
     }
 }
 
@@ -101,7 +123,7 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(1000, 1000, "Haulin Cube", NULL, NULL);
+    window = glfwCreateWindow(2000, 2000, "Haulin Cube", NULL, NULL);
     if (!window)
     {
         std::cout << "Failed to create a window" << std::endl;
